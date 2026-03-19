@@ -18,12 +18,39 @@ finbert_pipe = pipeline(
 )
 
 def predict_sentiment(ticker):
-    headline = yf.Ticker(ticker).news[0]["content"]["title"]
-    scores   = {item["label"].lower(): round(item["score"], 5) for item in finbert_pipe(headline)[0]}
+    news        = yf.Ticker(ticker).news[:5]
+    articles    = []
+    first_label = None
+
+    for i, item in enumerate(news):
+        headline = item["content"]["title"]
+        source   = item["content"].get("provider", {}).get("displayName", "Unknown")
+        summary  = item["content"].get("summary", "")
+        scores   = {x["label"].lower(): round(x["score"], 5) for x in finbert_pipe(headline)[0]}
+        label    = max(scores, key=scores.get)
+        conf     = round(scores[label] * 100, 2)
+
+        if i == 0:
+            first_label = label
+
+        articles.append({
+            "headline": headline,
+            "source":   source,
+            "summary":  summary,
+            "label":    label,
+            "conf":     conf,
+            "positive": scores.get("positive", 0),
+            "negative": scores.get("negative", 0),
+            "neutral":  scores.get("neutral",  0),
+        })
+
+    # first headline drives the score used in decision engine
+    first = articles[0]
     return {
-        "headline": headline,
-        "positive": scores.get("positive", 0),
-        "negative": scores.get("negative", 0),
-        "neutral":  scores.get("neutral",  0),
-        "label":    max(scores, key=scores.get)
+        "headline": first["headline"],
+        "positive": first["positive"],
+        "negative": first["negative"],
+        "neutral":  first["neutral"],
+        "label":    first_label,
+        "articles": articles
     }

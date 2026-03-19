@@ -81,6 +81,30 @@ async function runPrediction() {
     document.getElementById("cnnContrib").textContent  = dec.cnn_contrib
     document.getElementById("finalScoreBottom").textContent = dec.final_score
 
+    // News
+    const newsList = document.getElementById("newsList")
+    newsList.innerHTML = ""
+    sent.articles.forEach(article => {
+      const labelColor = article.label === "positive" ? "#00e676"
+                       : article.label === "negative" ? "#ff5252"
+                       : "#ffd740"
+      newsList.innerHTML += `
+        <div class="news-item">
+          <div class="news-top">
+            <div>
+              <div class="news-title">${article.headline}</div>
+              <div class="news-source">${article.source}</div>
+              <div class="news-summary">${article.summary}</div>
+            </div>
+            <div class="news-label" style="color:${labelColor}">
+              ${article.label.toUpperCase()}
+              <span class="news-conf">(${article.conf}% Conf.)</span>
+            </div>
+          </div>
+        </div>
+      `
+    })
+
     document.getElementById("results").style.display = "block"
 
   } catch (err) {

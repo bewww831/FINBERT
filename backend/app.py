@@ -1,4 +1,4 @@
-import warnings, matplotlib
+import os, warnings, matplotlib
 warnings.filterwarnings('ignore')
 matplotlib.use("Agg")
 
@@ -13,16 +13,18 @@ from sentiment_model import predict_sentiment
 from cnn_model import predict_cnn
 from decision import run_decision_engine
 
+BASE_DIR = os.path.dirname(__file__)
+
 app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-app.mount("/static", StaticFiles(directory="../assets"), name="static")
+app.mount("/assets", StaticFiles(directory=os.path.join(BASE_DIR, "../assets")), name="assets")
 
 class TickerRequest(BaseModel):
     ticker: str
 
 @app.get("/")
 def serve_frontend():
-    return FileResponse("../index.html")
+    return FileResponse(os.path.join(BASE_DIR, "../index.html"))
 
 @app.get("/health")
 def health():
