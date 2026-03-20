@@ -130,15 +130,13 @@ python test.py
 
 Expected output:
 ```
-🧪 Running tests — make sure uvicorn is running first!
+Running tests... (ensure uvicorn is running)
 
-✅ Health check passed
-✅ Predict AAPL passed — recommendation: BUY
-✅ Invalid ticker handled gracefully
-✅ Decision scores valid — final: 0.623
-✅ Sentiment articles valid — 5 articles returned
-
-✅ All tests passed!
+[PASS] Health check
+[PASS] Predict AAPL recommendation: HOLD
+[PASS] Invalid ticker handled gracefully
+[PASS] Decision scores valid final: 0.44969
+[PASS] Sentiment articles valid: 5 articles returned
 ```
 
 ## 📊 Evaluation Results
