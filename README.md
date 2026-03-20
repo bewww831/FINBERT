@@ -1,4 +1,4 @@
-# FinLens: AI-Powered Financial Advisor Bot
+# FinLens: A Multi-Modal AI Financial Advisory
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python)](https://python.org/)
@@ -7,11 +7,11 @@
 [![FinBERT](https://img.shields.io/badge/FinBERT-Fine--tuned-FFD21E?logo=huggingface)](https://huggingface.co/project-aps/finbert-finetune)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](#testing)
 
-_UoL BSc Computer Science CM3070 Final Project — Multi-modal AI investment recommendation system combining time-series forecasting, financial news sentiment analysis, and candlestick chart pattern recognition._
+_UoL BSc Computer Science CM3070 Final Project._
 
-## 📖 Project Overview
+## Project Overview
 
-Retail traders and individual investors lack access to affordable, transparent, and AI-powered financial advisory tools. Professional platforms like Bloomberg Terminal are prohibitively expensive, while free alternatives are unreliable, opaque, or narrowly focused on a single data source.
+Retail traders and individual investors lack access to affordable, transparent, and AI-powered financial advisory tools. Professional platforms like Bloomberg Terminal are expensive, while free alternatives are unreliable, opaque, or narrowly focused on a single data source.
 
 **FinLens** fills this gap:
 
@@ -19,39 +19,43 @@ Retail traders and individual investors lack access to affordable, transparent, 
 - Implements a **transparent late fusion decision engine** every recommendation shows exactly how each model contributed.
 - Accessible through a **standard web browser** no special hardware or software required.
 
-⚡ **Impact:** Turns multi-signal financial analysis that was previously only available to institutional investors into a free, explainable, web-based tool for everyday traders.
+By combining multiple models through a structured late fusion strategy, FinLens provides both predictive performance and interpretability.
 
-## ✨ Key Features
+## Key Features
 
-- **🤖 Multi-Modal AI Fusion**
+- **Multi-Modal AI Fusion**
   - XGBoost: time-series price forecasting over a 21-day horizon
   - Fine-tuned FinBERT: financial news sentiment classification
   - ResNet-18 CNN: candlestick chart pattern recognition
 
-- **🔢 Transparent Decision Engine**
-  Late fusion weighted formula — every score is visible to the user:
+- **Transparent Decision Engine**
+  Model outputs are combined using a weighted late fusion approach:
 ```
   Final Score = 0.525 × score_ts + 0.325 × score_sent + 0.150 × score_cnn
 ```
+Where each model score is normalized to a common scale:
+```
+score = ((P_buy − P_sell) × (1 − P_hold) + 1) / 2
+```
 
-- **📰 Live News Sentiment**
+- **Live News Sentiment**
   5 latest news headlines per ticker, each classified as Positive / Negative / Neutral with confidence score.
 
-- **📊 Seven-Level Recommendation Spectrum**
+- **Seven-Level Recommendation Spectrum**
   Strong Buy → Buy → Hold → Sell → Strong Sell with plain-language explanations.
 
-- **🌐 Web-Based & Free**
-  No paywall, no installation — runs in any browser via FastAPI + plain HTML/CSS/JS frontend.
+- **Web-Based & Free**
+  No paywall, no installation, runs in any browser via FastAPI + plain HTML/CSS/JS frontend.
 
-## 🏗️ Architecture
+## Architecture
 
 **Stack:**
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** FastAPI + Uvicorn
 - **AI Models:** XGBoost, Fine-tuned FinBERT, ResNet-18 (PyTorch)
-- **Data Source:** yfinance (historical prices, SPY/VIX context, news headlines)
+- **Data Source:** yfinance (price data, market context, news headlines)
 
-### 🤖 AI Workflow
+### AI Workflow
 ```
 User inputs ticker
         ↓
@@ -71,7 +75,7 @@ Each model's output is normalised using:
 score = ((P_buy − P_sell) × (1 − P_hold) + 1) / 2
 ```
 
-## 📂 Repo Structure
+## Repository Structure
 ```
 FINLENS/
 ├── index.html              
@@ -84,16 +88,16 @@ FINLENS/
     ├── app.py              # FastAPI routes
     ├── xgboost_model.py    # Time-series prediction
     ├── sentiment_model.py  # FinBERT sentiment
-    ├── cnn_model.py        # ResNet-18 chart pattern
+    ├── cnn_model.py        # CNN chart pattern
     ├── decision.py         # Late fusion engine
-    ├── features.py         # Feature engineering (33 indicators)
+    ├── features.py         # Feature engineering 
     ├── test.py             # API tests
     └── trained/
         ├── xgboost.pkl
         └── cnn.pt
 ```
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 - Python 3.11+
@@ -120,9 +124,9 @@ uvicorn app:app --reload
 
 Then open `http://127.0.0.1:8000` in your browser.
 
-> 💡 **First run tip:** The first request may take 30–60 seconds as FinBERT downloads its weights from Hugging Face. Subsequent requests will be faster as models are cached in memory.
+> **First run tip:** The first request may take 30–60 seconds as FinBERT downloads its weights from Hugging Face. Subsequent requests will be faster as models are cached in memory.
 
-## 🧪 Testing
+## Testing
 
 Make sure uvicorn is running first, then in a second terminal:
 ```bash
@@ -141,7 +145,7 @@ Running tests... (ensure uvicorn is running)
 [PASS] Sentiment articles valid: 5 articles returned
 ```
 
-## 📊 Evaluation Results
+## Evaluation Results
 
 | Model | Metric | Result |
 |---|---|---|
@@ -155,12 +159,14 @@ Running tests... (ensure uvicorn is running)
 
 Backtesting conducted over December 2022 – December 2025 across 16 tickers (AAPL, MSFT, GOOGL, AMZN, META, TSLA, NVDA, JPM, BAC, GS, XOM, CVX, JNJ, PFE, WMT, HD) with $160,000 total invested capital.
 
-> ⚠️ Past performance does not guarantee future results. This tool is for educational purposes only and does not constitute financial advice.
+> **Disclaimer**:
+This system is intended for educational and research purposes only. It does not constitute financial advice. Past performance is not indicative of future results.
 
-## 🔮 Future Work
+## Future Work
 
-- Aggregate multiple headlines per ticker for a more robust sentiment score
-- Expand XGBoost training beyond the current 16 tickers
-- Retrain CNN on a more diverse multi-asset candlestick dataset
+- Expand dataset coverage across sectors and asset classes
+- Incorporate multi-headline aggregation for sentiment robustness
+- Improve CNN generalisation using larger, multi-market datasets
 - Add historical prediction log to track past recommendations vs actual price movements
-- Push notifications and mobile support
+- Extend to mobile deployment and real-time notification systems
+- Real-time price for placing orders
