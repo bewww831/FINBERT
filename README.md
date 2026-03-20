@@ -119,7 +119,7 @@ pip install -r backend/requirements.txt
 ### Running
 ```bash
 cd backend
-uvicorn app:app --reload
+uvicorn app:app --reload --port 8000
 ```
 
 Then open `http://127.0.0.1:8000` in your browser.
