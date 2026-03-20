@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinLens — Models</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/models.css" />
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a class="brand" href="/">Fin<span>Lens</span></a>
+      <div class="nav-ticker">
+        <span class="track" id="tickerTrack">Loading market data…</span>
+      </div>
+      <div class="nav-tag">AI · Research Only</div>
+    </nav>
+
+    <!-- SHELL -->
+    <div class="shell">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar d-none d-md-flex">
+        <div class="sidebar-inner">
+          <p class="sidebar-section-label">Navigation</p>
+          <a href="/" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+          <a href="/models" class="sidebar-link active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Models
+          </a>
+          <a href="/about" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            About
+          </a>
+
+          <p class="sidebar-section-label" style="margin-top: 28px;">Info</p>
+          <div class="sidebar-info">
+            <p>Weights</p>
+            <div class="weight-row"><span>XGBoost</span><strong>52.5%</strong></div>
+            <div class="weight-row"><span>FinBERT</span><strong>32.5%</strong></div>
+            <div class="weight-row"><span>ResNet-18</span><strong>15.0%</strong></div>
+          </div>
+
+          <div class="disclaimer">
+            For educational &amp; research purposes only. Not financial advice.
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <div class="main-inner">
+
+          <!-- Page header -->
+          <div class="models-page-header">
+            <div>
+              <h1 class="models-page-title">AI Models</h1>
+              <p class="models-page-sub">Three independent models, one unified recommendation</p>
+            </div>
+          </div>
+
+          <!-- Model cards -->
+          <div class="model-overview-grid">
+
+            <!-- XGBoost -->
+            <div class="mo-card mo-card--xgb">
+              <div class="mo-card-top">
+                <div class="mo-icon-wrap mo-icon--xgb">📈</div>
+                <div>
+                  <div class="mo-name">XGBoost</div>
+                  <div class="mo-type">Time-Series Forecasting</div>
+                </div>
+                <div class="mo-weight-badge mo-badge--xgb">52.5%</div>
+              </div>
+
+              <p class="mo-desc">
+                Gradient-boosted decision trees trained on 2 years of daily OHLCV data enriched
+                with 30+ technical indicators — RSI, MACD, Bollinger Bands, ATR, OBV and
+                macro context from SPY &amp; VIX. Predicts Buy / Hold / Sell over a 21-day horizon.
+              </p>
+
+              <div class="mo-metrics">
+                <div class="mo-metric">
+                  <span class="mo-metric-val">95%</span>
+                  <span class="mo-metric-label">Holdout Accuracy</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">141%</span>
+                  <span class="mo-metric-label">Backtest Return</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">9/16</span>
+                  <span class="mo-metric-label">Beat Buy-and-Hold</span>
+                </div>
+              </div>
+
+              <div class="mo-tags">
+                <span class="mo-tag">OHLCV</span>
+                <span class="mo-tag">RSI</span>
+                <span class="mo-tag">MACD</span>
+                <span class="mo-tag">Bollinger Bands</span>
+                <span class="mo-tag">ATR</span>
+                <span class="mo-tag">VIX</span>
+                <span class="mo-tag">SPY</span>
+              </div>
+            </div>
+
+            <!-- FinBERT -->
+            <div class="mo-card mo-card--bert">
+              <div class="mo-card-top">
+                <div class="mo-icon-wrap mo-icon--bert">📰</div>
+                <div>
+                  <div class="mo-name">FinBERT</div>
+                  <div class="mo-type">News Sentiment Analysis</div>
+                </div>
+                <div class="mo-weight-badge mo-badge--bert">32.5%</div>
+              </div>
+
+              <p class="mo-desc">
+                Fine-tuned BERT transformer specialised for financial language. Classifies the
+                5 latest news headlines per ticker as Positive / Neutral / Negative. The first
+                headline's score feeds directly into the decision engine.
+              </p>
+
+              <div class="mo-metrics">
+                <div class="mo-metric">
+                  <span class="mo-metric-val">89.4%</span>
+                  <span class="mo-metric-label">Test Accuracy</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">87.4%</span>
+                  <span class="mo-metric-label">Macro F1-Score</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">5</span>
+                  <span class="mo-metric-label">Headlines / Ticker</span>
+                </div>
+              </div>
+
+              <div class="mo-tags">
+                <span class="mo-tag">Transformer</span>
+                <span class="mo-tag">Fine-tuned</span>
+                <span class="mo-tag">yfinance News</span>
+                <span class="mo-tag">NLP</span>
+              </div>
+            </div>
+
+            <!-- ResNet-18 -->
+            <div class="mo-card mo-card--cnn">
+              <div class="mo-card-top">
+                <div class="mo-icon-wrap mo-icon--cnn">📊</div>
+                <div>
+                  <div class="mo-name">ResNet-18</div>
+                  <div class="mo-type">Chart Pattern Recognition</div>
+                </div>
+                <div class="mo-weight-badge mo-badge--cnn">15.0%</div>
+              </div>
+
+              <p class="mo-desc">
+                Convolutional neural network that reads 30-day candlestick charts as images.
+                The chart is rendered at 224×224px and passed through ResNet-18 to classify
+                the visual pattern as Bullish / Neutral / Bearish.
+              </p>
+
+              <div class="mo-metrics">
+                <div class="mo-metric">
+                  <span class="mo-metric-val">71.7%</span>
+                  <span class="mo-metric-label">Test Accuracy</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">84%</span>
+                  <span class="mo-metric-label">Directional Recall</span>
+                </div>
+                <div class="mo-metric">
+                  <span class="mo-metric-val">30</span>
+                  <span class="mo-metric-label">Candles / Chart</span>
+                </div>
+              </div>
+
+              <div class="mo-tags">
+                <span class="mo-tag">CNN</span>
+                <span class="mo-tag">Computer Vision</span>
+                <span class="mo-tag">Candlestick</span>
+                <span class="mo-tag">PyTorch</span>
+              </div>
+            </div>
+
+          </div><!-- /model-overview-grid -->
+
+          <!-- Weight Justification -->
+          <div class="weight-section">
+            <div class="weight-section-header">
+              <div>
+                <h2 class="weight-section-title">Weight Justification</h2>
+                <p class="weight-section-sub">Why each model contributes the amount it does to the final score</p>
+              </div>
+            </div>
+
+            <div class="weight-layout">
+
+              <!-- Donut chart -->
+              <div class="weight-chart-wrap">
+                <canvas id="weightChart" width="260" height="260"></canvas>
+                <div class="weight-chart-legend">
+                  <div class="wc-legend-item"><span class="wc-dot" style="background:#00c2ff"></span>XGBoost 52.5%</div>
+                  <div class="wc-legend-item"><span class="wc-dot" style="background:#a78bfa"></span>FinBERT 32.5%</div>
+                  <div class="wc-legend-item"><span class="wc-dot" style="background:#34d399"></span>ResNet-18 15.0%</div>
+                </div>
+              </div>
+
+              <!-- Reasoning rows -->
+              <div class="weight-reasons">
+
+                <div class="wr-row wr-row--xgb">
+                  <div class="wr-header">
+                    <span class="wr-name">📈 XGBoost</span>
+                    <span class="wr-pct wr-pct--xgb">52.5%</span>
+                  </div>
+                  <div class="wr-bar-track">
+                    <div class="wr-bar-fill" style="width:52.5%; background:#00c2ff"></div>
+                  </div>
+                  <p class="wr-reason">
+                    Highest weight due to its 95% holdout accuracy and strong backtesting
+                    performance. Price action and technical indicators are the most direct
+                    signal for short-term directional movement.
+                  </p>
+                </div>
+
+                <div class="wr-row wr-row--bert">
+                  <div class="wr-header">
+                    <span class="wr-name">📰 FinBERT</span>
+                    <span class="wr-pct wr-pct--bert">32.5%</span>
+                  </div>
+                  <div class="wr-bar-track">
+                    <div class="wr-bar-fill" style="width:32.5%; background:#a78bfa"></div>
+                  </div>
+                  <p class="wr-reason">
+                    Second highest weight reflecting 89.4% accuracy and 87.4% macro F1.
+                    News sentiment is a well-established driver of short-term price moves,
+                    making it a strong complementary signal to price data.
+                  </p>
+                </div>
+
+                <div class="wr-row wr-row--cnn">
+                  <div class="wr-header">
+                    <span class="wr-name">📊 ResNet-18</span>
+                    <span class="wr-pct wr-pct--cnn">15.0%</span>
+                  </div>
+                  <div class="wr-bar-track">
+                    <div class="wr-bar-fill" style="width:15%; background:#34d399"></div>
+                  </div>
+                  <p class="wr-reason">
+                    Lowest weight as chart pattern recognition is the least precise of the
+                    three at 71.7% accuracy. It still adds value as an independent visual
+                    signal — particularly useful when XGBoost and FinBERT conflict.
+                  </p>
+                </div>
+
+                <!-- Formula box -->
+                <div class="formula-box">
+                  <div class="formula-label">Late Fusion Formula</div>
+                  <div class="formula-text">
+                    Final Score = <span class="fc--xgb">0.525</span> × score<sub>ts</sub>
+                    + <span class="fc--bert">0.325</span> × score<sub>sent</sub>
+                    + <span class="fc--cnn">0.150</span> × score<sub>cnn</sub>
+                  </div>
+                  <div class="formula-norm">
+                    where each score = ( (P<sub>buy</sub> − P<sub>sell</sub>) × (1 − P<sub>hold</sub>) + 1 ) / 2
+                  </div>
+                </div>
+
+              </div><!-- /weight-reasons -->
+            </div><!-- /weight-layout -->
+          </div><!-- /weight-section -->
+
+        </div><!-- /main-inner -->
+      </main>
+    </div><!-- /shell -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+      // Donut chart
+      const ctx = document.getElementById('weightChart').getContext('2d')
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['XGBoost', 'FinBERT', 'ResNet-18'],
+          datasets: [{
+            data: [52.5, 32.5, 15],
+            backgroundColor: ['#00c2ff', '#a78bfa', '#34d399'],
+            borderWidth: 0,
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          cutout: '68%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+              }
+            }
+          },
+          animation: { animateRotate: true, duration: 900 }
+        }
+      })
+    </script>
+  </body>
+</html>

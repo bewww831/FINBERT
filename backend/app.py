@@ -26,9 +26,45 @@ class TickerRequest(BaseModel):
 def serve_frontend():
     return FileResponse(os.path.join(BASE_DIR, "../index.html"))
 
+@app.get("/models")
+def serve_models():
+    return FileResponse(os.path.join(BASE_DIR, "../models.html"))
+
+@app.get("/about")
+def serve_about():
+    return FileResponse(os.path.join(BASE_DIR, "../about.html"))
+
 @app.get("/health")
 def health():
     return {"status": "ok", "models": ["xgboost", "finbert", "cnn"]}
+
+@app.get("/prices")
+def prices():
+    import yfinance as yf
+    tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "META", "TSLA", "NVDA",
+               "JPM", "BAC", "GS", "XOM", "CVX", "JNJ", "PFE", "WMT", "HD"]
+    try:
+        data = yf.download(tickers, period="2d", auto_adjust=True, progress=False)
+        closes = data["Close"]
+        result = []
+        for t in tickers:
+            try:
+                prices = closes[t].dropna()
+                if len(prices) < 2:
+                    continue
+                prev  = float(prices.iloc[-2])
+                curr  = float(prices.iloc[-1])
+                chg   = ((curr - prev) / prev) * 100
+                result.append({
+                    "ticker": t,
+                    "price":  round(curr, 2),
+                    "change": round(chg, 2)
+                })
+            except Exception:
+                continue
+        return JSONResponse(content={"prices": result})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 @app.post("/predict")
 def predict(req: TickerRequest):

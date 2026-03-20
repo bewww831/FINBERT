@@ -33,10 +33,14 @@ def predict_sentiment(ticker):
         if i == 0:
             first_label = label
 
+        url = item["content"].get("canonicalUrl", {}).get("url", "") or \
+              item["content"].get("clickThroughUrl", {}).get("url", "")
+
         articles.append({
             "headline": headline,
             "source":   source,
             "summary":  summary,
+            "url":      url,
             "label":    label,
             "conf":     conf,
             "positive": scores.get("positive", 0),

@@ -1,0 +1,270 @@
+/* ============================================================
+   FINLENS — about.css
+   ============================================================ */
+
+/* ── PAGE HEADER ─────────────────────────────────────────── */
+.about-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-page-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin: 0 0 4px 0;
+}
+
+.about-page-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── SECTION ─────────────────────────────────────────────── */
+.about-section {
+  margin-bottom: 24px;
+}
+
+.about-section-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.about-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 0;
+  box-shadow: var(--shadow);
+}
+
+/* ── SETTING ROW ─────────────────────────────────────────── */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 22px;
+}
+
+.setting-info { flex: 1; min-width: 0; }
+
+.setting-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.setting-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.setting-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 22px;
+}
+
+/* ── ABOUT GRID ──────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 6px 0;
+}
+
+.about-item {
+  padding: 14px 22px;
+  border-right: 1px solid var(--border);
+}
+
+.about-item:nth-child(3n) { border-right: none; }
+
+.about-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.about-value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* server status dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-checking { background: var(--muted); }
+.status-ok       { background: var(--buy); box-shadow: 0 0 6px rgba(34,197,94,0.5); }
+.status-error    { background: var(--sell); }
+
+/* ── ABOUT MODELS TABLE ───────────────────────────────────── */
+.about-models-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 14px 22px 8px;
+}
+
+.about-models-table {
+  padding: 0 22px 6px;
+}
+
+.amt-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 0.7fr 0.7fr;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  align-items: center;
+}
+
+.amt-row:last-child { border-bottom: none; }
+
+.amt-header {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  padding-bottom: 6px;
+}
+
+.amt-name { font-weight: 700; font-family: 'Space Mono', monospace; font-size: 12px; }
+.amt-xgb  { color: #00c2ff; }
+.amt-bert { color: #a78bfa; }
+.amt-cnn  { color: #34d399; }
+.amt-muted  { color: var(--muted); }
+.amt-accent { color: var(--accent); font-family: 'Space Mono', monospace; font-weight: 700; }
+.amt-val    { color: var(--text); font-family: 'Space Mono', monospace; }
+
+/* ── BACKTEST INFO ────────────────────────────────────────── */
+.backtest-info {
+  padding: 6px 22px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bt-item {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  align-items: baseline;
+}
+
+.bt-label {
+  color: var(--muted);
+  font-size: 12px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.bt-val { color: var(--text); line-height: 1.5; }
+
+.bt-highlight {
+  color: var(--buy);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+}
+
+/* ── LINKS ───────────────────────────────────────────────── */
+.about-links {
+  display: flex;
+  gap: 10px;
+  padding: 14px 22px 8px;
+  flex-wrap: wrap;
+}
+
+.about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.about-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,194,255,0.06);
+}
+
+/* ── DISCLAIMER CARD ─────────────────────────────────────── */
+.disclaimer-card {
+  display: flex;
+  gap: 16px;
+  background: rgba(239,68,68,0.05);
+  border: 1px solid rgba(239,68,68,0.18);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 28px;
+}
+
+.disclaimer-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+.disclaimer-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fca5a5;
+  margin-bottom: 6px;
+}
+
+.disclaimer-body {
+  font-size: 12.5px;
+  color: #94a3b8;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr 1fr; }
+  .about-item:nth-child(3n)  { border-right: 1px solid var(--border); }
+  .about-item:nth-child(2n)  { border-right: none; }
+  .about-page-header { flex-direction: column; align-items: flex-start; }
+  .amt-row { grid-template-columns: 1fr 1fr; }
+  .amt-row span:nth-child(3),
+  .amt-row span:nth-child(4) { display: none; }
+}

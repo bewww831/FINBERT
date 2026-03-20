@@ -3,199 +3,240 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Financial Advisor Bot — Test</title>
+    <title>FinLens — Multi-Modal AI Financial Advisor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <script src="assets/js/app.js"></script>
   </head>
   <body>
-    <h1>🤖 Finlens</h1>
-    <p class="sub">Multi-modal AI — Time Series · Sentiment · Chart Pattern</p>
 
-    <div class="search-box">
-      <input
-        type="text"
-        id="tickerInput"
-        placeholder="e.g. AAPL"
-        maxlength="6"
-      />
-      <button id="predictBtn" onclick="runPrediction()">Analyse</button>
-    </div>
-
-    <div id="loading">⏳ Running models — this may take 15–30 seconds...</div>
-    <div id="error"></div>
-
-    <div id="results">
-      <div class="final-card">
-        <div class="ticker-label" id="tickerLabel"></div>
-        <div class="rec" id="finalRec"></div>
-        <div class="score" id="finalScore"></div>
-        <div class="explanation" id="finalExplanation"></div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a class="brand" href="#">Fin<span>Lens</span></a>
+      <div class="nav-ticker">
+        <span class="track" id="tickerTrack">
+          AAPL &nbsp;·&nbsp; MSFT &nbsp;·&nbsp; GOOGL &nbsp;·&nbsp; NVDA &nbsp;·&nbsp;
+          TSLA &nbsp;·&nbsp; AMZN &nbsp;·&nbsp; META &nbsp;·&nbsp; JPM &nbsp;·&nbsp;
+          BAC &nbsp;·&nbsp; GS &nbsp;·&nbsp; XOM &nbsp;·&nbsp; CVX &nbsp;·&nbsp;
+          JNJ &nbsp;·&nbsp; PFE &nbsp;·&nbsp; WMT &nbsp;·&nbsp; HD
+        </span>
       </div>
+      <div class="nav-tag">AI · Research Only</div>
+    </nav>
 
-      <div class="grid">
-        <div class="card">
-          <h3>📈 Time Series (XGBoost)</h3>
-          <div class="label-big" id="tsLabel"></div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>BUY</span><span id="tsBuy"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="tsBuyBar"
-                style="background: #00e676"
-              ></div>
-            </div>
+    <!-- SHELL -->
+    <div class="shell">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar d-none d-md-flex">
+        <div class="sidebar-inner">
+          <p class="sidebar-section-label">Navigation</p>
+          <a href="/" class="sidebar-link active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+          <a href="/models" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Models
+          </a>
+          <a href="/about" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            About
+          </a>
+
+          <p class="sidebar-section-label" style="margin-top: 28px;">Info</p>
+          <div class="sidebar-info">
+            <p>Weights</p>
+            <div class="weight-row"><span>XGBoost</span><strong>52.5%</strong></div>
+            <div class="weight-row"><span>FinBERT</span><strong>32.5%</strong></div>
+            <div class="weight-row"><span>ResNet-18</span><strong>15.0%</strong></div>
           </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>HOLD</span><span id="tsHold"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="tsHoldBar"
-                style="background: #ffd740"
-              ></div>
-            </div>
-          </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>SELL</span><span id="tsSell"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="tsSellBar"
-                style="background: #ff5252"
-              ></div>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 12px">
-            <span>Normalised Score</span><span id="tsScore"></span>
+
+          <div class="disclaimer">
+            For educational &amp; research purposes only. Not financial advice.
           </div>
         </div>
+      </aside>
 
-        <div class="card">
-          <h3>📰 Sentiment (FinBERT)</h3>
-          <div class="label-big" id="sentLabel"></div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>POSITIVE</span><span id="sentPos"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="sentPosBar"
-                style="background: #00e676"
-              ></div>
-            </div>
+      <!-- MAIN -->
+      <main class="main">
+      <div class="main-inner">
+
+        <!-- Search -->
+        <div class="search-section">
+          <div class="search-wrap">
+            <input
+              type="text"
+              id="tickerInput"
+              class="ticker-input"
+              placeholder="Enter ticker — e.g. AAPL"
+              maxlength="6"
+              autocomplete="off"
+            />
+            <button id="predictBtn" onclick="runPrediction()">Analyse</button>
           </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>NEUTRAL</span><span id="sentNeu"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="sentNeuBar"
-                style="background: #ffd740"
-              ></div>
-            </div>
+          <p class="search-hint">Enter a US stock ticker to run all three AI models</p>
+          <!-- Loading -->
+          <div id="loading" class="loading-state">
+            <div class="spinner"></div>
+            <span>Running models — this may take 15–30 seconds…</span>
           </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>NEGATIVE</span><span id="sentNeg"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="sentNegBar"
-                style="background: #ff5252"
-              ></div>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 12px">
-            <span>Normalised Score</span><span id="sentScore"></span>
-          </div>
-          <div class="headline" id="sentHeadline"></div>
         </div>
 
-        <div class="card">
-          <h3>📊 Chart Pattern (ResNet-18)</h3>
-          <div class="label-big" id="cnnLabel"></div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>BULLISH</span><span id="cnnBull"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="cnnBullBar"
-                style="background: #00e676"
-              ></div>
-            </div>
-          </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>NEUTRAL</span><span id="cnnNeu"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="cnnNeuBar"
-                style="background: #ffd740"
-              ></div>
-            </div>
-          </div>
-          <div class="score-bar-wrap">
-            <div class="score-bar-label">
-              <span>BEARISH</span><span id="cnnBear"></span>
-            </div>
-            <div class="score-bar">
-              <div
-                class="score-bar-fill"
-                id="cnnBearBar"
-                style="background: #ff5252"
-              ></div>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 12px">
-            <span>Normalised Score</span><span id="cnnScore"></span>
-          </div>
-        </div>
-      </div>
+        <!-- Error -->
+        <div id="error" class="error-state"></div>
 
-      <div class="weights-card">
-        <h3>🔢 Weighted Contributions</h3>
-        <div class="contrib-row">
-          <span class="name">📈 Time Series</span>
-          <span class="formula" id="tsFormula"></span>
-          <span class="value" id="tsContrib"></span>
-        </div>
-        <div class="contrib-row">
-          <span class="name">📰 Sentiment</span>
-          <span class="formula" id="sentFormula"></span>
-          <span class="value" id="sentContrib"></span>
-        </div>
-        <div class="contrib-row">
-          <span class="name">📊 CNN Pattern</span>
-          <span class="formula" id="cnnFormula"></span>
-          <span class="value" id="cnnContrib"></span>
-        </div>
-        <hr class="divider" />
-        <div class="final-row">
-          <span>Final Score</span>
-          <span id="finalScoreBottom" style="color: #00d4ff"></span>
-        </div>
-      </div>
+        <!-- Results -->
+        <div id="results">
 
-      <!-- News Section -->
-<div class="news-card">
-  <h3>📰 Latest News & Sentiment</h3>
-  <div id="newsList"></div>
-</div>
-    </div>
+          <!-- Final Verdict -->
+          <div class="verdict-card">
+            <div class="verdict-ticker" id="tickerLabel"></div>
+            <div class="verdict-rec" id="finalRec"></div>
+            <div class="verdict-score" id="finalScore"></div>
+            <div class="verdict-explanation" id="finalExplanation"></div>
+          </div>
+
+          <!-- Three model cards -->
+          <div class="models-grid">
+
+            <!-- XGBoost -->
+            <div class="model-card">
+              <div class="model-header">
+                <span class="model-icon">📈</span>
+                <div>
+                  <div class="model-title">Time Series</div>
+                  <div class="model-sub">XGBoost · 52.5% weight</div>
+                </div>
+                <div class="model-label" id="tsLabel"></div>
+              </div>
+              <div class="prob-bars">
+                <div class="prob-row">
+                  <span class="prob-name">BUY</span>
+                  <div class="prob-track"><div class="prob-fill fill-buy" id="tsBuyBar"></div></div>
+                  <span class="prob-val" id="tsBuy"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">HOLD</span>
+                  <div class="prob-track"><div class="prob-fill fill-hold" id="tsHoldBar"></div></div>
+                  <span class="prob-val" id="tsHold"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">SELL</span>
+                  <div class="prob-track"><div class="prob-fill fill-sell" id="tsSellBar"></div></div>
+                  <span class="prob-val" id="tsSell"></span>
+                </div>
+              </div>
+              <div class="model-score-row">
+                <span>Normalised Score</span><span id="tsScore"></span>
+              </div>
+            </div>
+
+            <!-- FinBERT -->
+            <div class="model-card">
+              <div class="model-header">
+                <span class="model-icon">📰</span>
+                <div>
+                  <div class="model-title">Sentiment</div>
+                  <div class="model-sub">FinBERT · 32.5% weight</div>
+                </div>
+                <div class="model-label" id="sentLabel"></div>
+              </div>
+              <div class="prob-bars">
+                <div class="prob-row">
+                  <span class="prob-name">POS</span>
+                  <div class="prob-track"><div class="prob-fill fill-buy" id="sentPosBar"></div></div>
+                  <span class="prob-val" id="sentPos"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">NEU</span>
+                  <div class="prob-track"><div class="prob-fill fill-hold" id="sentNeuBar"></div></div>
+                  <span class="prob-val" id="sentNeu"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">NEG</span>
+                  <div class="prob-track"><div class="prob-fill fill-sell" id="sentNegBar"></div></div>
+                  <span class="prob-val" id="sentNeg"></span>
+                </div>
+              </div>
+              <div class="model-score-row">
+                <span>Normalised Score</span><span id="sentScore"></span>
+              </div>
+              <div class="headline-preview" id="sentHeadline"></div>
+            </div>
+
+            <!-- CNN -->
+            <div class="model-card">
+              <div class="model-header">
+                <span class="model-icon">📊</span>
+                <div>
+                  <div class="model-title">Chart Pattern</div>
+                  <div class="model-sub">ResNet-18 · 15.0% weight</div>
+                </div>
+                <div class="model-label" id="cnnLabel"></div>
+              </div>
+              <div class="prob-bars">
+                <div class="prob-row">
+                  <span class="prob-name">BULL</span>
+                  <div class="prob-track"><div class="prob-fill fill-buy" id="cnnBullBar"></div></div>
+                  <span class="prob-val" id="cnnBull"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">NEU</span>
+                  <div class="prob-track"><div class="prob-fill fill-hold" id="cnnNeuBar"></div></div>
+                  <span class="prob-val" id="cnnNeu"></span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-name">BEAR</span>
+                  <div class="prob-track"><div class="prob-fill fill-sell" id="cnnBearBar"></div></div>
+                  <span class="prob-val" id="cnnBear"></span>
+                </div>
+              </div>
+              <div class="model-score-row">
+                <span>Normalised Score</span><span id="cnnScore"></span>
+              </div>
+            </div>
+
+          </div><!-- /models-grid -->
+
+          <!-- Weighted Contributions -->
+          <div class="weights-card">
+            <div class="weights-title">🔢 Weighted Contributions</div>
+            <div class="contrib-row">
+              <span class="contrib-name">📈 Time Series</span>
+              <span class="contrib-formula" id="tsFormula"></span>
+              <span class="contrib-value" id="tsContrib"></span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-name">📰 Sentiment</span>
+              <span class="contrib-formula" id="sentFormula"></span>
+              <span class="contrib-value" id="sentContrib"></span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-name">📊 CNN Pattern</span>
+              <span class="contrib-formula" id="cnnFormula"></span>
+              <span class="contrib-value" id="cnnContrib"></span>
+            </div>
+            <div class="contrib-divider"></div>
+            <div class="contrib-final">
+              <span>Final Score</span>
+              <span id="finalScoreBottom"></span>
+            </div>
+          </div>
+
+          <!-- News -->
+          <div class="news-card">
+            <div class="news-title">📰 Latest News &amp; Sentiment</div>
+            <div id="newsList"></div>
+          </div>
+
+        </div><!-- /results -->
+      </div><!-- /main-inner -->
+      </main>
+    </div><!-- /shell -->
+
+    <script src="assets/js/app.js"></script>
   </body>
 </html>

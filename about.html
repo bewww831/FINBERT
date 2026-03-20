@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinLens — About</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/about.css" />
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a class="brand" href="/">Fin<span>Lens</span></a>
+      <div class="nav-ticker">
+        <span class="track" id="tickerTrack">Loading market data…</span>
+      </div>
+      <div class="nav-tag">AI · Research Only</div>
+    </nav>
+
+    <!-- SHELL -->
+    <div class="shell">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar d-none d-md-flex">
+        <div class="sidebar-inner">
+          <p class="sidebar-section-label">Navigation</p>
+          <a href="/" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+          <a href="/models" class="sidebar-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Models
+          </a>
+          <a href="/about" class="sidebar-link active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            About
+          </a>
+
+          <p class="sidebar-section-label" style="margin-top: 28px;">Info</p>
+          <div class="sidebar-info">
+            <p>Weights</p>
+            <div class="weight-row"><span>XGBoost</span><strong>52.5%</strong></div>
+            <div class="weight-row"><span>FinBERT</span><strong>32.5%</strong></div>
+            <div class="weight-row"><span>ResNet-18</span><strong>15.0%</strong></div>
+          </div>
+
+          <div class="disclaimer">
+            For educational &amp; research purposes only. Not financial advice.
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <div class="main-inner">
+
+          <!-- Page header -->
+          <div class="about-page-header">
+            <div>
+              <h1 class="about-page-title">About</h1>
+              <p class="about-page-sub">Information about Finlens</p>
+            </div>
+          </div>
+
+          <!-- ── SECTION: About & System Info ── -->
+          <div class="about-section">
+            <div class="about-section-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              About &amp; System Info
+            </div>
+
+            <div class="about-card">
+
+              <div class="about-grid">
+                <div class="about-item">
+                  <div class="about-label">Project</div>
+                  <div class="about-value">FinLens</div>
+                </div>
+                <div class="about-item">
+                  <div class="about-label">Version</div>
+                  <div class="about-value">1.0.0</div>
+                </div>
+                <div class="about-item">
+                  <div class="about-label">Course</div>
+                  <div class="about-value">UoL BSc CS · CM3070</div>
+                </div>
+                <div class="about-item">
+                  <div class="about-label">Backend</div>
+                  <div class="about-value">FastAPI + Uvicorn</div>
+                </div>
+                <div class="about-item">
+                  <div class="about-label">Data Source</div>
+                  <div class="about-value">yfinance</div>
+                </div>
+                <div class="about-item">
+                  <div class="about-label">Server Status</div>
+                  <div class="about-value" id="serverStatus">
+                    <span class="status-dot status-checking"></span> Checking…
+                  </div>
+                </div>
+              </div>
+
+              <div class="setting-divider"></div>
+
+              <!-- Models table -->
+              <div class="about-models-title">AI Models</div>
+              <div class="about-models-table">
+                <div class="amt-row amt-header">
+                  <span>Model</span><span>Type</span><span>Weight</span><span>Accuracy</span>
+                </div>
+                <div class="amt-row">
+                  <span class="amt-name amt-xgb">XGBoost</span>
+                  <span class="amt-muted">Time-Series</span>
+                  <span class="amt-accent">52.5%</span>
+                  <span class="amt-val">95.0%</span>
+                </div>
+                <div class="amt-row">
+                  <span class="amt-name amt-bert">FinBERT</span>
+                  <span class="amt-muted">Sentiment NLP</span>
+                  <span class="amt-accent">32.5%</span>
+                  <span class="amt-val">89.4%</span>
+                </div>
+                <div class="amt-row">
+                  <span class="amt-name amt-cnn">ResNet-18</span>
+                  <span class="amt-muted">Chart Pattern</span>
+                  <span class="amt-accent">15.0%</span>
+                  <span class="amt-val">71.7%</span>
+                </div>
+              </div>
+
+              <div class="setting-divider"></div>
+
+              <!-- Backtesting info -->
+              <div class="about-models-title">Backtesting</div>
+              <div class="backtest-info">
+                <div class="bt-item">
+                  <span class="bt-label">Period</span>
+                  <span class="bt-val">Dec 2022 – Dec 2025</span>
+                </div>
+                <div class="bt-item">
+                  <span class="bt-label">Tickers</span>
+                  <span class="bt-val">16 (AAPL, MSFT, GOOGL, AMZN, META, TSLA, NVDA, JPM, BAC, GS, XOM, CVX, JNJ, PFE, WMT, HD)</span>
+                </div>
+                <div class="bt-item">
+                  <span class="bt-label">Capital</span>
+                  <span class="bt-val">$160,000 total invested</span>
+                </div>
+                <div class="bt-item">
+                  <span class="bt-label">Portfolio Return</span>
+                  <span class="bt-val bt-highlight">141.17%</span>
+                </div>
+                <div class="bt-item">
+                  <span class="bt-label">Beat Buy-and-Hold</span>
+                  <span class="bt-val">9 / 16 tickers</span>
+                </div>
+              </div>
+
+              <div class="setting-divider"></div>
+
+              <!-- Links -->
+              <div class="about-links">
+                <a href="https://github.com/bewww831/FINLENS" target="_blank" rel="noopener" class="about-link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                  GitHub Repository
+                </a>
+                <a href="/health" target="_blank" rel="noopener" class="about-link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  API Health Check
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── DISCLAIMER ── -->
+          <div class="disclaimer-card">
+            <div class="disclaimer-icon">⚠️</div>
+            <div>
+              <div class="disclaimer-title">Research &amp; Educational Use Only</div>
+              <p class="disclaimer-body">
+                FinLens is a BSc Computer Science final project. All recommendations are generated
+                by AI models and are intended for research and educational purposes only.
+                Nothing on this platform constitutes financial advice. Past performance is not
+                indicative of future results. Always consult a qualified financial advisor before
+                making any investment decisions.
+              </p>
+            </div>
+          </div>
+
+        </div><!-- /main-inner -->
+      </main>
+    </div><!-- /shell -->
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/about.js"></script>
+  </body>
+</html>
