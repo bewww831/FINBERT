@@ -105,7 +105,7 @@ FINLENS/
 ### Setup
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/finlens.git
+git clone https://github.com/bewww831/FINLENS.git
 cd finlens
 
 # Create and activate virtual environment
